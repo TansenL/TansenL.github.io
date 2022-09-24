@@ -1,18 +1,4 @@
----
-layout: post
-read_time: true
-show_date: true
-title:  recommender system
-date:   2021-09-24 13:32:20 -0600
-description: Single neuron perceptron that classifies elements learning quite quickly.
-img: assets/img/posts/20210125/Perceptron.jpg 
-tags: [machine learning, coding, neural networks]
-author: Armando Maynez
-github:  amaynez/Perceptron/
-mathjax: yes
----
-
-## 撮合平台概论$\cdot$第二章$\cdot$推荐策略概论
+## 撮合平台概论 $\cdot$ 第二章 $\cdot$ 推荐策略概论
 
 [TOC]
 
@@ -121,22 +107,25 @@ mathjax: yes
 | user3 | 1 | 0 | 0 | 0 | 0 |
 | user4 | 0 | 1 | 0 | 1 | 0 |
 | user5 | 0 | 0 | 0 | 0 | 1 |
+
 #### 4.1 相似性计算
 ##### 4.1.2 基本相似性计算
 | 相似性方法 | 计算方式 | 备注 |
 | :---: | :---: | :--- |
 | Jaccard | $sim_{Jaccard}(u_i,u_j) = \frac{\|f(u_i) \cap f(u_j)\|}{\|f(u_i) \cup f(u_j)\|}$ | 两个用户的相似性等于<br>两个用户特征中的相同特征数<br>除以两个用户特征的总数<br>$f(u_i)$为$u_i$的特征集合 |
-| $L_p-norms$ | $sim_{L_p}(u_i,u_j) = \frac{1}{\sqrt[p]{\frac{1}{n} \Sigma^{n}_{k=1} \|f_{i,k}-f_{j,k}\|^p}+1}$ | 其中$f_i$为用户$u_i$的特征向量, $f_{i,k}$为用户$u_i$的第$j$个特征 |
-| Cosine | $sim_{Cosine}(u_i,u_j) = \frac{\vec{f_i} \cdot \vec{f_j}}{\|f_i\| \cdot \|f_j\|}$ | 其中$f_i$为用户$u_i$的特征向量 |
+| $L_p-norms$ | $sim_{L_p}(u_i,u_j) = \frac{1}{\sqrt[p]{\frac{1}{n} \Sigma^{n}_{k=1} \|f_{i,k}-f_{j,k}\|^p}+1}$ | 其中 $f_i$ 为用户 $u_i$ 的特征向量, $f_{i,k}$ 为用户   $u_i$ 的第 $j$ 个特征 |
+| Cosine | $sim_{Cosine}(u_i,u_j) = \frac{\vec{f_i} \cdot \vec{f_j}}{\|f_i\| \cdot \|f_j\|}$ | 其中 $f_i$ 为用户 $u_i$ 的特征向量 |
 
 ##### 4.1.3 基于结构的相似性计算(SimRank)
 <img src='SimRank2.png' style='width:400 px;height: 300px'/>
 
 如果两个人的朋友很相似, 那么这两个人也很相似
+
 $$
 sim_{SimRank}(u_i,u_j) = \frac{C}{\|N(u_i)\|\|N(u_j)\|} \Sigma_{m=1}^{\|N(u_i)\|} \Sigma_{n=1}^{\|N(u_j)\|} sim_{SimRank}(u_m,u_n)
 $$
-其中,$N(u_i)$为用户$u_i$的朋友集合
+
+其中, $N(u_i)$ 为用户 $u_i$ 的朋友集合
 
 同理,如果将右侧的节点换成商品,那我们可以通过商品的相似性计算用户的相似性,通过用户的相似性计算商品的相似性
 
@@ -197,31 +186,35 @@ $$
 1. 计算商品$j$与其他所有商品的相似性
 2. 选出与$j$相似度比较高的商品
 3. 根据用户$i$对这些相似度比较高的商品偏好, 根据下列公式计算出用户$i$对商品$j$的喜好
+
 $$
 Pred(user_i,item_j) = \frac{\Sigma_{item_k \in N(item_i)} sim(item_i,item_k) \cdot r_{user_i,item_k}}{\Sigma_{item_k \in N(item_i)} sim(item_k,item_i)}
 $$
-其中,$N(item_i)$为与用户$item_i$相似性较高的用户集合
+
+其中 $N(item_i)$ 为与用户 $item_i$ 相似性较高的用户集合
 ###### 4.2.2.2 基于用户的协同过滤(user-based method)
 <img src='UserBased.png' style='width:400 px;height: 300px'/>
 
-与基于商品的协同过滤相似, 基于用户的协同过滤数据梳理流程(计算用户$i$对商品$j$的喜好):
-1. 计算用户$i$与其他所有用户的相似性
-2. 选出与$i$相似度比较高的用户
-3. 根据这些相似度比较高的用户对$j$的偏好, 根据下列公式计算出用户$i$对商品$j$的喜好
+与基于商品的协同过滤相似, 基于用户的协同过滤数据梳理流程(计算用户 $i$ 对商品 $j$ 的喜好):
+1. 计算用户 $i$ 与其他所有用户的相似性
+2. 选出与 $i$ 相似度比较高的用户
+3. 根据这些相似度比较高的用户对 $j$ 的偏好, 根据下列公式计算出用户 $i$ 对商品 $j$ 的喜好
+
 $$
 Pred(user_i,item_j) = \frac{\Sigma_{user_k \in N(user_i)} sim(user_i,user_k) \cdot r_{user_k,item_j}}{\Sigma_{user_k \in N(user_i)} sim(user_i,user_k)}
 $$
-其中,$N(user_i)$为与用户$user_i$相似性较高的用户集合
+
+其中, $N(user_i)$ 为与用户 $user_i$ 相似性较高的用户集合
 ###### 4.2.2.3 矩阵分解(matrix factorization method)
 <img src='MatrixFactor.png' style='width:400 px;height: 300px'/>
 
 前面介绍了基于商品的协同过滤和基于用户的协同过滤的方法, 但这两种方法不能直接用于生产中,
 这是因为商品数量很多, 用户也会很多, 因此实际的user-item矩阵会很大, 计算相似性和检索时的时间复杂度会很高
 因此我们需要对商品特征和用户特征进行降维, 
-我们知道一个大小为$m \times k$的矩阵与一个$k \times n$的矩阵相乘, 可以得到一个$m \times n$的矩阵
-反过来, 一个$m \times n$的矩阵可以分解为,一个大小为$m \times k$的矩阵, 和一个大小为$k \times n$的矩阵(如图所示)
+我们知道一个大小为 $m \times k$ 的矩阵与一个 $k \times n$ 的矩阵相乘, 可以得到一个 $m \times n$ 的矩阵
+反过来, 一个 $m \times n$ 的矩阵可以分解为,一个大小为 $m \times k$ 的矩阵, 和一个大小为 $k \times n$ 的矩阵(如图所示)
 
-因此, 我们可以把user-item矩阵分解为矩阵$U$和$V$, 其中$U$矩阵可以作为用户特征矩阵参与相似性计算, $V$矩阵可以作为商品特征矩阵参与相似性计算
+因此, 我们可以把user-item矩阵分解为矩阵 $U$ 和 $V$ , 其中$U$矩阵可以作为用户特征矩阵参与相似性计算, $V$ 矩阵可以作为商品特征矩阵参与相似性计算
 
 具体的计算方式有SVD(奇异阵分解)或通过机器学习的方式学习,这里不做详细介绍
 
@@ -255,9 +248,9 @@ $$
 | :--: | :---: | :---: | :-- |
 | 准确率(Precision) | $precison = \frac{TP}{TP+FP}$ | 用户维度 | 用于衡量推荐的商品中, 有多少是用户感兴趣的 |
 | 召回率(Recall) | $recall = \frac{TP}{TP+FN}$ | 用户维度 | 用于衡量用户感兴趣的商品, 推荐策略推荐了多少 |
-| P@k(Precision@k) | $P@k(u_i) = \frac{前k个推荐u_i感兴趣数}{k}$ | 用户维度 | 用于衡量前k个推荐中,用户$u_i$的感兴趣度 |
-| 平均准确率(AP) | $AP(u_i) = \frac{\Sigma_{k=i}^m P@(k)}{m}$ | 用户维度 | Average Precision<br>用于用户$u_i$衡量平均准确率|
+| P@k(Precision@k) | $P@k(u_i) = \frac{前k个推荐u_i感兴趣数}{k}$ | 用户维度 | 用于衡量前k个推荐中,用户 $u_i$ 的感兴趣度 |
+| 平均准确率(AP) | $AP(u_i) = \frac{\Sigma_{k=i}^m P@(k)}{m}$ | 用户维度 | Average Precision<br>用于用户 $u_i$ 衡量平均准确率|
 | 平均准确率(MAP) | $MAP(u_i) = \frac{\Sigma_{u \in U} AP(u)}{\|U\|}$ | 全局维度 | Mean Average Precision<br>用于衡量整体推荐策略的情况 |
-| 累计收益(CG) | $CG_p = \Sigma_{i=1}^p rel(i)$ | 用户维度 | Cumulative Gain<br>$rel(i)$指用户对<br>第$i$个推荐的商品的感兴趣程度 |
+| 累计收益(CG) | $CG_p = \Sigma_{i=1}^p rel(i)$ | 用户维度 | Cumulative Gain<br> $rel(i)$ 指用户对<br>第 $i$ 个推荐的商品的感兴趣程度 |
 | 贴现累计收益(DCG) | $DCG_p = \Sigma_{i=1}^p \frac{2^{rel(i)} - 1}{log_2(i+1)}$ | 用户维度 |Discounted Cumulative Gain<br>按照排序对相关度进行相应的缩减 |
 | 归一化累计收益(NDCG) | $NDCG_p = \frac{DCG_p}{IDCG_p}$ | 用户维度 | Normalized Discounted<br>Cumulative Gain<br>对DCG的归一化处理,方便不同策略的对比<br>IDCG(idea DCG)指理想的DCG,<br>即把商品按用户感兴趣程度排序后的DCG |
